@@ -24,6 +24,9 @@
 		9A4E80782C1460760078558E /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E80772C1460760078558E /* Movie.swift */; };
 		9A4E807D2C14C60F0078558E /* ObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E807C2C14C60F0078558E /* ObservableObject.swift */; };
 		9A4E80802C14CF6C0078558E /* CategoryViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E807F2C14CF6C0078558E /* CategoryViewTableViewCell.swift */; };
+		9A4E808B2C15B87D0078558E /* CategoryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E808A2C15B87D0078558E /* CategoryCollectionViewController.swift */; };
+		9A4E808F2C15B9DE0078558E /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4E808E2C15B9DE0078558E /* CategoryCollectionViewCell.swift */; };
+		9A4E80912C15BE360078558E /* CategoryCollectionViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A4E80902C15BE360078558E /* CategoryCollectionViewController.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		9A4E80772C1460760078558E /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		9A4E807C2C14C60F0078558E /* ObservableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObject.swift; sourceTree = "<group>"; };
 		9A4E807F2C14CF6C0078558E /* CategoryViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewTableViewCell.swift; sourceTree = "<group>"; };
+		9A4E808A2C15B87D0078558E /* CategoryCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewController.swift; sourceTree = "<group>"; };
+		9A4E808E2C15B9DE0078558E /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		9A4E80902C15BE360078558E /* CategoryCollectionViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CategoryCollectionViewController.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,7 @@
 		9A4E80362C143E520078558E /* Movie App */ = {
 			isa = PBXGroup;
 			children = (
+				9A4E80832C159C530078558E /* CategoryCollectionView */,
 				9A4E807E2C14CF290078558E /* CategoryView */,
 				9A4E807A2C1466430078558E /* NetworkService */,
 				9A4E80792C1466330078558E /* Model */,
@@ -181,6 +188,16 @@
 				9A4E807F2C14CF6C0078558E /* CategoryViewTableViewCell.swift */,
 			);
 			path = CategoryView;
+			sourceTree = "<group>";
+		};
+		9A4E80832C159C530078558E /* CategoryCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				9A4E808A2C15B87D0078558E /* CategoryCollectionViewController.swift */,
+				9A4E808E2C15B9DE0078558E /* CategoryCollectionViewCell.swift */,
+				9A4E80902C15BE360078558E /* CategoryCollectionViewController.storyboard */,
+			);
+			path = CategoryCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,6 +306,7 @@
 			files = (
 				9A4E80472C143E530078558E /* LaunchScreen.storyboard in Resources */,
 				9A4E80442C143E530078558E /* Assets.xcassets in Resources */,
+				9A4E80912C15BE360078558E /* CategoryCollectionViewController.storyboard in Resources */,
 				9A4E80702C145DDB0078558E /* HomeScreenViewController.storyboard in Resources */,
 				9A4E803F2C143E520078558E /* Main.storyboard in Resources */,
 			);
@@ -319,6 +337,8 @@
 				9A4E80722C145DFF0078558E /* HomeScreenViewModel.swift in Sources */,
 				9A4E80382C143E520078558E /* AppDelegate.swift in Sources */,
 				9A4E80422C143E520078558E /* Movie_App.xcdatamodeld in Sources */,
+				9A4E808F2C15B9DE0078558E /* CategoryCollectionViewCell.swift in Sources */,
+				9A4E808B2C15B87D0078558E /* CategoryCollectionViewController.swift in Sources */,
 				9A4E803A2C143E520078558E /* SceneDelegate.swift in Sources */,
 				9A4E806D2C145CEC0078558E /* HomeScreenViewController.swift in Sources */,
 				9A4E80802C14CF6C0078558E /* CategoryViewTableViewCell.swift in Sources */,
