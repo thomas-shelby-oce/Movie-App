@@ -10,8 +10,9 @@ import Foundation
 final class HomeScreenViewModel {
     var trendingMovies: ObservableObject<[Movie]?>
     var nowPlayingMovies, popularMovies, topRatedMovies: ObservableObject<[Movie]?>
-    var trendingMoviesRange: Time = .day
+    var trendingMoviesRange: ObservableObject<Time> = ObservableObject(.day)
     let categories: [String] = ["Trending", "Now Playing", "Popular", "Top Rated"]
+    let categoryList: [MovieCategory] = MovieCategory.allCases
     
     init() {
         self.trendingMovies = ObservableObject(nil)
@@ -20,20 +21,53 @@ final class HomeScreenViewModel {
         self.topRatedMovies = ObservableObject(nil)
     }
     
+    private func addValuesInModel(in category: MovieCategory, movies: [Movie]?) {
+        switch category {
+        case .trending:
+            self.trendingMovies.value = movies
+        case .now_playing:
+            self.nowPlayingMovies.value =  movies
+        case .popular:
+            self.popularMovies.value = movies
+        case .top_rated:
+            self.topRatedMovies.value = movies
+        }
+    }
+    
     func fetchAllMovies() {
-        NetworkService.shared.fetchTrendingMovies(for: self.trendingMoviesRange, completion: { movies in
-            guard let movies = movies else {
-                return
+        for categoryName in categoryList {
+            if(categoryName == .trending) {
+                NetworkService.shared.fetchTrendingMovies(for: self.trendingMoviesRange.value, completion: { movies in
+                    guard let movies = movies else {
+                        return
+                    }
+                    var moviesList = movies
+                    self.addValuesInModel(in: categoryName, movies: moviesList)
+                })
+            } else {
+                NetworkService.shared.fetchMoviesForCategory(for: categoryName, completion: { movies in
+                    guard let movies = movies else {
+                        return
+                    }
+                    var moviesList = movies
+                    self.addValuesInModel(in: categoryName, movies: moviesList)
+                })
             }
-            var moviesList = movies
-            if movies.count > 3 {
-                moviesList = Array(movies[0..<3])
-            }
-            self.trendingMovies.value = moviesList
-            self.nowPlayingMovies.value = moviesList
-            self.popularMovies.value = moviesList
-            self.topRatedMovies.value = moviesList
-        })
+        }
+    }
+    
+    func getMovieList(for index: Int) -> [Movie]? {
+        let category = categoryList[index]
+        switch category {
+        case .now_playing:
+            return self.nowPlayingMovies.value
+        case .trending:
+            return self.trendingMovies.value
+        case .popular:
+            return self.popularMovies.value
+        case .top_rated:
+            return self.topRatedMovies.value
+        }
     }
     
 }

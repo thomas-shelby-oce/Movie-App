@@ -30,11 +30,16 @@ class HomeScreenViewController: UIViewController {
         viewModel.popularMovies.bind() { [weak self] in
             self?.reloadMoviesData()
         }
+        
+        viewModel.trendingMoviesRange.bind() { [weak self] in
+            self?.reloadMoviesData()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         categoryTableView.dataSource = self
+        categoryTableView.delegate = self
         setupBinders()
         viewModel.fetchAllMovies()
     }
@@ -45,15 +50,42 @@ extension HomeScreenViewController: UITableViewDataSource {
         viewModel.categories.count
     }
     
+    private func toggleTrendingMoviesRange() {
+        let currentRange = self.viewModel.trendingMoviesRange.value
+        if(currentRange == .day) {
+            self.viewModel.trendingMoviesRange.value = .week
+        } else {
+            self.viewModel.trendingMoviesRange.value = .day
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell()
         if let categoryCell = categoryTableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath) as? CategoryViewTableViewCell {
             categoryCell.title.text = viewModel.categories[indexPath.row]
-            categoryCell.configureMovieTiles(for: viewModel.nowPlayingMovies.value)
+            let movieList = viewModel.getMovieList(for: indexPath.row)
+            categoryCell.configureMovieTiles(for: movieList)
+            categoryCell.configureActionButton(for: indexPath.row, time: viewModel.trendingMoviesRange.value) { [weak self] in
+                self?.toggleTrendingMoviesRange()
+                if(indexPath.row != 0) {
+                    let storyboard = UIStoryboard(name: "CategoryCollectionViewController", bundle: nil)
+                    guard let categoryViewController = storyboard.instantiateViewController(withIdentifier: "CategoryCollectionViewController") as? CategoryCollectionViewController else {
+                        return
+                    }
+                    
+                    categoryViewController.movies = movieList
+                    self?.navigationController?.pushViewController(categoryViewController, animated: true)
+                }
+                
+            }
             cell = categoryCell
         }
         return cell
     }
-    
-    
+}
+
+extension HomeScreenViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
+    }
 }

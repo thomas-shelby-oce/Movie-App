@@ -22,8 +22,21 @@ struct Movie: Decodable {
     
     enum CodingKeys: String, CodingKey {
         case title
-        case imgSrc = "backdrop_path"
+        case imgSrc = "poster_path"
         case rating = "vote_average"
     }
 }
+
+public enum Time: String {
+    case day = "day"
+    case week = "week"
+}
+
+public enum MovieCategory: CaseIterable {
+    case trending
+    case now_playing
+    case popular
+    case top_rated
+}
+
 
