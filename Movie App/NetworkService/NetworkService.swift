@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 public enum Time: String {
     case day = "day"
@@ -17,11 +18,12 @@ class NetworkService {
     private init() {}
     
     private let BASE_URL = "https://api.themoviedb.org/3/"
+    private let IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
     
-    func fetchTrendingMovies(for duration: Time, completion: @escaping () -> Void) {
+    func fetchTrendingMovies(for duration: Time, completion: @escaping ([Movie]?) -> ()) {
         let endPoint =  BASE_URL + "trending/movie/" + duration.rawValue
         guard let url = URL(string: endPoint) else {
-            completion()
+            completion(nil)
             return
         }
         var request = URLRequest(url: url)
@@ -35,10 +37,34 @@ class NetworkService {
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             do {
                 let decodedMovies: MoviesList = try JSONDecoder().decode(MoviesList.self, from: data!)
-                print(decodedMovies)
+                completion(decodedMovies.movies)
             } catch {
                 
             }
         }.resume()
+    }
+    
+    func loadImage(from path: String, into imageView: UIImageView) {
+        let endPoint = IMAGE_BASE_URL + path
+        guard let url = URL(string: endPoint) else {
+            print("Unable to create url for image path: \(path)")
+            return
+        }
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            // Ensure there is no error and data is not nil
+            guard let data = data, error == nil else {
+                print("Error downloading image: \(String(describing: error))")
+                return
+            }
+            
+            // Create UIImage from data
+            let image = UIImage(data: data)
+            
+            // Update UI on the main thread
+            DispatchQueue.main.async {
+                imageView.image = image
+            }
+        }
+        task.resume()
     }
 }
